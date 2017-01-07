@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fixed Blockly</title>
+    <script src="../../blockly_compressed.js"></script>
+    <script src="../../blocks_compressed.js"></script>
+    <script src="../../msg/js/zh-hans.js"></script>
+    <style>
+        body{
+            background-color: #fff;
+            font-family: "Microsoft JhengHei";
+        }
+        h1{
+            font-weight: normal;
+            font-size: 140%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fixed Blockly</h1>
+<div id="blocklyDiv" style="height:400px;width:400px;"></div>
+<xml id="toolbox" style="display:none">
+    <block type="controls_if"></block>
+    <block type="logic_compare"></block>
+    <block type="controls_repeat_ext"></block>
+    <block type="math_number"></block>
+    <block type="text"></block>
+    <block type="text_print"></block>
+</xml>
+
+<script>
+    var workspace = Blockly.inject('blocklyDiv',
+        {media: '../../media/',
+        toolbox: document.getElementById('toolbox')});
+</script>
+
+</body>
+</html>

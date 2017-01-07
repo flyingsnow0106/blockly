@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyDemos：Toolbox</title>
+    <script src="../../blockly_compressed.js"></script>
+    <script src="../../blocks_compressed.js"></script>
+    <script src="../../javascript_compressed.js"></script>
+    <script src="../../msg/js/zh-hans.js"></script>
+    <style>
+        body{
+            background-color: #fff;
+            font-family:微软雅黑;
+        }
+        h1 {
+            font-weight: normal;
+            font-size: 140%;
+        }
+    </style>
+</head>
+<body>
+    <p><b>你只剩下<span id="capacity"></span>个积木块</b></p>
+    <p ><span id="mycode"></span></p>
+    <div id="blocklyDiv" style="height:600px; width:1366px;"></div>
+    <xml id="toolbox" style="display:none">
+        <category name="Logic" colour="210" expanded="false">
+            <category name="IF">
+                <category name="If">
+                    <block type="controls_if"></block>
+                    <block type="controls_if">
+                        <mutation else="1"></mutation>
+                    </block>
+                    <block type="controls_if">
+                        <mutation elseif="1" else="'1"></mutation>
+                    </block>
+                </category>
+            </category>
+            <category name="Boolean">
+                <block type="logic_compare"></block>
+                <block type="logic_operation"></block>
+                <block type="logic_negate"></block>
+            </category>
+        </category>
+        <sep gap="8"></sep>
+        <category name="Loop" colour="120">
+            <block type="controls_repeat_ext">
+                <value name="TIMES">
+                    <block type="math_number">
+                        <field name="NUM">10</field>
+                    </block>
+                </value>
+            </block>
+            <block type="controls_whileUntil" disabled="true"></block>
+            <block type="controls_for">
+                <field name"VAR">i</field>
+                <value name="FROM">
+                    <block type="math_number">
+                        <field name="NUM">1</field>
+                    </block>
+                </value>
+            </block>
+        </category>
+    </xml>
+
+    <script>
+        var workspace = Blockly.inject('blocklyDiv',
+            {media:'../../media/',sounds:'false',
+             maxBlocks: 5,
+             rtl:false,
+             sounds: false,
+             grid:{
+                spacing: 20,
+                 length: 20,
+                 colour: '#ccc',
+                 snap: false},
+             zoom:{
+                 controls: true,
+                 wheel: true,
+                 startScale: 1.0,
+                 maxScale:3,
+                 minScale: 0.8,
+                 scaleSpeed: 1.2},
+            toolbox:document.getElementById('toolbox')});
+
+        function onchange(event){
+            document.getElementById('capacity').textContent =
+                workspace.remainingCapacity();
+        }
+        function onFirstComment(event){
+            if(event.type == Blockly.Events.CHANGE &&
+               event.element == 'comment' &&
+               !event.oldValue && event.newValue){
+             alert('恭喜你，创建了第一个注释')
+             workspace.removeChangeListener(onFirstComment);
+            }
+        }
+
+        function myUpdateFunction(event){
+            var code = Blockly.JavaScript.workspaceToCode(workspace);
+            document.getElementById('mycode').textContent = code;
+        }
+        workspace.addChangeListener(onFirstComment);
+        workspace.addChangeListener(myUpdateFunction);
+        workspace.addChangeListener(onchange);
+        onchange();
+    </script>
+</body>
+</html>
